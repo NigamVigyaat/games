@@ -1,0 +1,69 @@
+import random
+
+# Define the board
+board = [[None, None, None],
+         [None, None, None],
+         [None, None, None]]
+
+# Define the players
+players = ["X", "O"]
+
+# Define the current player
+current_player = players[0]
+
+# Start the game
+print("Tic Tac Toe!")
+print(board)
+
+# Keep playing until the game is over
+while True:
+
+    # Get the player's move
+    row, col = input("Enter your move (row, column): ").split()
+    row = int(row)
+    col = int(col)
+
+    # Check if the move is valid
+    if row < 0 or row >= 3 or col < 0 or col >= 3 or board[row][col] is not None:
+        print("Invalid move!")
+        continue
+
+    # Make the move
+    board[row][col] = current_player
+
+    # Check if the game is over
+    if check_winner(board) is not None:
+        break
+
+    # Switch players
+    current_player = players[players.index(current_player) ^ 1]
+
+    # Print the board
+    print(board)
+
+# Check if the game is a tie
+if check_winner(board) is None:
+    print("Tie game!")
+
+# Announce the winner
+winner = check_winner(board)
+if winner is not None:
+    print(winner + " wins!")
+
+# Function to check for a winner
+def check_winner(board):
+    for row in range(3):
+        if board[row][0] == board[row][1] == board[row][2] != None:
+            return board[row][0]
+
+    for col in range(3):
+        if board[0][col] == board[1][col] == board[2][col] != None:
+            return board[0][col]
+
+    if board[0][0] == board[1][1] == board[2][2] != None:
+        return board[0][0]
+
+    if board[0][2] == board[1][1] == board[2][0] != None:
+        return board[0][2]
+
+    return None
